@@ -1370,18 +1370,18 @@ let autoScrolling = false;
         }
 
         async function getRandomMusic(){
-            const url = 'https://free.wqwlkj.cn/wqwlapi/wyy_random.php?type=json';
+            const url = 'https://api.52vmy.cn/api/music/wy/rand';
             printLog('发起 随机音乐 获取', url);
             try{
                 const resp = await fetch(url);
                 const data = await resp.json();
                 printLog('随机音乐 响应成功', data);
-                if(data && data.data && data.data.url){
+                if(data && data.code === 200 && data.data && data.data.Music){
                     return [{ 
-                        name: data.data.name || '随机曲目', 
-                        artist: data.data.artistsname || '随缘', 
-                        url: data.data.url, 
-                        cover: data.data.pic || null, 
+                        name: data.data.song || '随机曲目', 
+                        artist: data.data.singer || '随缘', 
+                        url: data.data.Music, 
+                        cover: data.data.cover || null, 
                         duration: '00:00',
                         source: '随机', 
                         isVip: false 
