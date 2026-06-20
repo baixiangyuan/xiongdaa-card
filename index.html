@@ -1370,84 +1370,26 @@ let autoScrolling = false;
         }
 
         async function getRandomMusic(){
-            // 备用 API 列表，按优先级排序
-            const apiList = [
-                {
-                    // API 1: 限时灵 (优先尝试，与原本格式类似)
-                    url: 'https://api.xhcode.top/api/random_music.php',
-                    parse: (data) => {
-                        if(data && data.data){
-                            return [{ 
-                                name: data.data.name || data.data.song || '随机曲目', 
-                                artist: data.data.artist || data.data.singer || '随缘', 
-                                url: data.data.url || data.data.music || data.data.Music, 
-                                cover: data.data.pic || data.data.cover || data.data.picurl || null, 
-                                duration: '00:00',
-                                source: '随机', 
-                                isVip: false 
-                            }];
-                        }
-                        return null;
-                    }
-                },
-                {
-                    // API 2: UOMG (热门稳定)
-                    url: 'https://api.uomg.com/api/rand.music?sort=热歌榜&format=json',
-                    parse: (data) => {
-                        if(data && data.data && data.data.url){
-                            return [{ 
-                                name: data.data.name || '随机曲目', 
-                                artist: data.data.artistsname || '随缘', 
-                                url: data.data.url, 
-                                cover: data.data.picurl || data.data.cover || null, 
-                                duration: '00:00',
-                                source: '随机', 
-                                isVip: false 
-                            }];
-                        }
-                        return null;
-                    }
-                },
-                {
-                    // API 3: 备用接口
-                    url: 'https://api.sdsm.xyz/api/163/random',
-                    parse: (data) => {
-                        if(data && data.data){
-                            return [{ 
-                                name: data.data.name || data.data.song || '随机曲目', 
-                                artist: data.data.singer || data.data.artist || '随缘', 
-                                url: data.data.url || data.data.music, 
-                                cover: data.data.cover || data.data.pic || null, 
-                                duration: '00:00',
-                                source: '随机', 
-                                isVip: false 
-                            }];
-                        }
-                        return null;
-                    }
+            const url = 'https://api.uomg.com/api/rand.music?sort=热歌榜&format=json';
+            printLog('发起 随机音乐 获取', url);
+            try{
+                const resp = await fetch(url);
+                const data = await resp.json();
+                printLog('随机音乐 响应成功', data);
+                if(data && data.data && data.data.url){
+                    return [{ 
+                        name: data.data.name || '随机曲目', 
+                        artist: data.data.artistsname || '随缘', 
+                        url: data.data.url, 
+                        cover: data.data.picurl || data.data.pic || data.data.cover || null, 
+                        duration: '00:00',
+                        source: '随机', 
+                        isVip: false 
+                    }];
                 }
-            ];
-
-            for(let i = 0; i < apiList.length; i++){
-                const api = apiList[i];
-                printLog('发起 随机音乐 获取', `尝试 API ${i+1}: ${api.url}`);
-                try{
-                    const resp = await fetch(api.url);
-                    const data = await resp.json();
-                    printLog('随机音乐 响应成功', data);
-                    const result = api.parse(data);
-                    if(result && result[0] && result[0].url){
-                        printLog('随机音乐 解析成功', `使用 API ${i+1}`);
-                        return result;
-                    }
-                }catch(e){ 
-                    printLog(`随机音乐 API ${i+1} 请求报错`, e.message || e, true); 
-                }
-            }
-            showToast('所有随机音乐接口均不可用，请稍后再试');
-            return [];
+                return [];
+            }catch(e){ printLog('随机音乐 请求报错', e.message || e, true); return []; }
         }
-
         // ================= 搜索事件绑定 =================
         document.getElementById('searchQQBtn').onclick = async () => {
             const kw = document.getElementById('musicKeyword').value.trim();
