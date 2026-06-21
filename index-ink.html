@@ -214,74 +214,6 @@
         .sidebar-night-btn { width:100%; padding:10px; background:rgba(212,165,116,0.08); border:1px solid var(--ink-border); color:var(--ink-text); cursor:pointer; border-radius:4px; font-size:0.85rem; font-family:'Noto Serif SC',serif; }
 
         /* Bio弹窗 */
-        #bio-modal { position:fixed; top:0; left:0; width:100%; height:100%; z-index:99999; display:none; align-items:center; justify-content:center; }
-        #bio-modal.show { display:flex; }
-        #bio-modal-backdrop { position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); }
-        #bio-panel { position:relative; z-index:1; width:90%; max-width:480px; max-height:80vh; background:rgba(30,26,22,0.98); border:1px solid var(--ink-border); border-radius:6px; overflow-y:auto; backdrop-filter:blur(20px); }
-        .bio-header { display:flex; justify-content:space-between; padding:16px 20px; border-bottom:1px solid var(--ink-border); color:var(--ink-accent); }
-        .bio-header i { cursor:pointer; } .bio-header i:hover { color:#ff6b6b; }
-        .bio-body { padding:20px; }
-        .bio-loading,.bio-error { text-align:center; padding:30px; color:var(--ink-muted); }
-        .bio-avatar-section { text-align:center; margin-bottom:20px; }
-        .bio-avatar { width:80px; height:80px; border-radius:50%; border:2px solid var(--ink-accent); }
-        .bio-name { color:var(--ink-accent); font-size:1.1rem; margin-top:10px; font-family:'ZCOOL XiaoWei',serif; }
-        .bio-quote { background:rgba(212,165,116,0.05); border-left:2px solid var(--ink-accent); padding:10px 15px; margin:15px 0; font-size:0.85rem; color:var(--ink-muted); font-style:italic; }
-        .bio-section-title { font-size:0.85rem; color:var(--ink-accent); margin:15px 0 10px; border-bottom:1px solid rgba(200,180,150,0.12); padding-bottom:5px; }
-        .bio-skill-item { display:flex; align-items:center; gap:8px; margin-bottom:8px; font-size:0.8rem; }
-        .bio-skill-bar { flex:1; height:5px; background:rgba(212,165,116,0.1); border-radius:3px; overflow:hidden; }
-        .bio-skill-fill { height:100%; background:linear-gradient(90deg,var(--ink-accent),var(--ink-accent2)); border-radius:3px; }
-        .bio-timeline-item { padding-left:15px; border-left:2px solid var(--ink-accent); margin-bottom:10px; }
-        .bio-timeline-year { font-size:0.75rem; color:var(--ink-accent); }
-        .bio-tag { display:inline-block; padding:3px 10px; background:rgba(143,188,143,0.08); border:1px solid rgba(143,188,143,0.2); border-radius:3px; font-size:0.75rem; color:var(--ink-accent2); margin:3px; }
-        .bio-contact a { display:inline-block; margin-right:15px; color:var(--ink-text); text-decoration:none; font-size:0.85rem; }
-        .bio-contact a:hover { color:var(--ink-accent); }
-        .bio-project { margin-bottom:12px; }
-        .bio-project a { color:var(--ink-accent2); text-decoration:none; font-size:0.85rem; }
-        .bio-project-desc { font-size:0.8rem; color:var(--ink-muted); margin-top:2px; }
-        .bio-project-lang { font-size:0.7rem; padding:2px 6px; border:1px solid rgba(143,188,143,0.2); color:var(--ink-accent2); border-radius:3px; }
-
-        /* 视频背景 */
-        #bg-video { position:fixed; top:0; left:0; width:100%; height:100%; object-fit:cover; z-index:-1; display:none; }
-        #bg-video.active { display:block; }
-        #bg-video-overlay { position:fixed; top:0; left:0; width:100%; height:100%; z-index:-1; background:rgba(26,24,20,0.5); }
-
-        /* 主题切换器 */
-        .theme-switcher { position:fixed; bottom:70px; right:20px; z-index:9997; }
-        .theme-switcher-btn { width:36px; height:36px; border-radius:50%; background:var(--ink-surface); border:1px solid var(--ink-border); color:var(--ink-accent); cursor:pointer; backdrop-filter:blur(20px); transition:all 0.3s; }
-        .theme-switcher-btn:hover { background:rgba(212,165,116,0.15); transform:rotate(180deg); }
-        .theme-panel { position:absolute; bottom:46px; right:0; background:rgba(30,26,22,0.98); border:1px solid var(--ink-border); border-radius:4px; padding:10px; display:none; min-width:120px; backdrop-filter:blur(20px); }
-        .theme-panel.show { display:block; }
-        .theme-option { display:flex; align-items:center; gap:8px; padding:8px 12px; cursor:pointer; font-size:0.8rem; color:var(--ink-muted); transition:all 0.2s; border-radius:3px; }
-        .theme-option:hover,.theme-option.active { color:var(--ink-text); background:rgba(212,165,116,0.08); }
-        .theme-dot { width:12px; height:12px; border-radius:50%; }
-        .theme-dot.aurora { background:#6ee7b7; } .theme-dot.cyberpunk { background:#ff2d7b; }
-        .theme-dot.ink { background:#d4a574; } .theme-dot.galaxy { background:#b388ff; }
-        .theme-dot.sakura { background:#ff9eb5; }
-
-        /* 点击特效 */
-        .click-effect { position:fixed; width:100px; height:100px; border:1.5px solid var(--ink-accent); border-radius:50%; pointer-events:none; z-index:99997; animation:clickRipple 0.6s ease-out forwards; }
-        @keyframes clickRipple { 0%{transform:scale(0);opacity:1;} 100%{transform:scale(1);opacity:0;} }
-        .click-heart { position:fixed; pointer-events:none; z-index:99997; color:var(--ink-accent); font-size:1rem; animation:heartFloat 1.2s ease-out forwards; }
-        @keyframes heartFloat { 0%{opacity:1;transform:translateY(0) translateX(var(--tx,0));} 100%{opacity:0;transform:translateY(-80px) translateX(var(--tx,0));} }
-        .click-particle { position:fixed; width:3px; height:3px; border-radius:50%; pointer-events:none; z-index:99997; animation:particleBurst 0.8s ease-out forwards; }
-        @keyframes particleBurst { 0%{opacity:1;transform:translate(0,0);} 100%{opacity:0;transform:translate(var(--tx,0),var(--ty,0));} }
-
-        /* 光标 */
-        #cursor-concentric { position:fixed; z-index:99999; pointer-events:none; transform:translate(-50%,-50%); transition:transform 0.15s; display:none; }
-        @media(hover:hover) { #cursor-concentric { display:block; } * { cursor:none !important; } }
-        #cursor-concentric .outer { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); border:1.5px solid var(--ink-accent); border-radius:50%; }
-        #cursor-concentric .inner { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); border:1px solid rgba(212,165,116,0.5); border-radius:50%; }
-        #cursor-concentric .dot { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:4px; height:4px; background:var(--ink-accent); border-radius:50%; }
-
-        .night-mode { --ink-bg:#0a0908; --ink-surface:rgba(245,240,230,0.04); }
-        .author-credit { position:relative; z-index:10; text-align:center; padding:20px; font-size:0.75rem; color:var(--ink-muted); }
-        .author-credit a { color:var(--ink-accent2); text-decoration:none; }
-
-        @media(max-width:600px) {
-            .ink-tools-grid { grid-template-columns:repeat(2,1fr); }
-            #log-panel { width:100%; }
-            .ink-time { font-size:2.2rem; }
-        }
     </style>
 </head>
 <body>
@@ -400,14 +332,12 @@
                 <div class="ink-contact" onclick="openApp('qq','3075304265')"><i class="fab fa-qq"></i> QQ 交流</div>
                 <div class="ink-contact" onclick="openApp('wechat','bxybxybxybxy1234')"><i class="fab fa-weixin"></i> 微信联系</div>
                 <a href="mailto:791433443@qq.com" class="ink-contact"><i class="fas fa-envelope"></i> 发送邮件</a>
-                <a href="bio.html" class="ink-contact"><i class="fas fa-id-card"></i> 作者生平</a>
             </div>
             <div class="ink-stats"><span>访客 <span class="num" id="busuanzi_value_site_uv">--</span></span><span>访问 <span class="num" id="busuanzi_value_site_pv">--</span></span></div>
         </div>
     </div>
 
     <div id="toast"><i class="fas fa-info-circle" style="color:var(--ink-accent);"></i> <span id="toast-msg"></span></div>
-    <div id="bio-modal"><div id="bio-modal-backdrop" onclick="closeBioPanel()"></div><div id="bio-panel"><div class="bio-header"><span><i class="fas fa-id-card" style="margin-right:10px;color:var(--ink-accent);"></i> 作者生平</span><i class="fas fa-times" onclick="closeBioPanel()"></i></div><div class="bio-body" id="bio-body"><div class="bio-loading">正在加载...</div></div></div></div>
 
     <script src="common-index.js"></script>
     <script>initIndexPage('ink');</script>
