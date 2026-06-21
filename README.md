@@ -140,8 +140,8 @@ const BIO_API = 'https://cros.bxyaa.me/?url=' + encodeURIComponent('你的生平
   "contact": {
     "github": "https://github.com/xxx",
     "website": "https://example.com",
-    "email": "email@example.com",
-    "qq": "123456789",
+    "email": "791433443@qq.com",
+    "qq": "3075304265",
     "wechat": "your_wechat"
   }
 }
@@ -222,7 +222,7 @@ const BIO_API = 'https://cros.bxyaa.me/?url=' + encodeURIComponent('你的生平
   "contact": {
     "github": "https://github.com/kssssxg",
     "website": "https://bxyaa.me",
-    "email": "your.email@example.com",
+    "email": "791433443@qq.com",
     "qq": "你的QQ号",
     "wechat": "你的微信号"
   }

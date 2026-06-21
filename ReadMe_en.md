@@ -140,8 +140,8 @@ The page expects the bio data JSON API to return data in the following format:
   "contact": {
     "github": "https://github.com/xxx",
     "website": "https://example.com",
-    "email": "email@example.com",
-    "qq": "123456789",
+    "email": "791433443@qq.com",
+    "qq": "3075304265",
     "wechat": "your_wechat"
   }
 }
@@ -222,7 +222,7 @@ The page expects the bio data JSON API to return data in the following format:
   "contact": {
     "github": "https://github.com/kssssxg",
     "website": "https://bxyaa.me",
-    "email": "your.email@example.com",
+    "email": "791433443@qq.com",
     "qq": "YourQQNumber",
     "wechat": "YourWeChatID"
   }
