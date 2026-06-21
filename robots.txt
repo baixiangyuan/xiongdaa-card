@@ -1,0 +1,5 @@
+# robots.txt for bxyaa.me
+User-agent: *
+Allow: /
+
+Sitemap: https://bxyaa.me/sitemap.xml
