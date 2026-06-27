@@ -1,4 +1,4 @@
-// ================= 共享工具脚本 - xiongdaa 工具集 =================
+// ================= 共享工具脚本 - bxya 工具集 =================
 // 背景系统、夜间模式、Toast、点击特效、时钟
 
 // --- Toast ---
@@ -33,7 +33,7 @@ if (document.getElementById('clock-time')) {
 }
 
 // --- 夜间模式 ---
-const NIGHT_MODE_KEY = 'xiongda_night_mode';
+const NIGHT_MODE_KEY = 'bxy_night_mode';
 function initNightMode() {
     try {
         const stored = localStorage.getItem(NIGHT_MODE_KEY);
@@ -79,8 +79,8 @@ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e)
 });
 
 // --- 背景系统 ---
-const BG_KEY = 'xiongda_bg';
-const BG_TYPE_KEY = 'xiongda_bg_type';
+const BG_KEY = 'bxy_bg';
+const BG_TYPE_KEY = 'bxy_bg_type';
 const BING_API = 'https://bing.biturl.top/?resolution=1920&format=json&index=0&mkt=zh-CN';
 const DEFAULT_BG = 'https://img.8845.top/acg';
 let currentVideoScale = 'cover';
@@ -94,7 +94,7 @@ function initBg() {
     try {
         const stored = localStorage.getItem(BG_KEY);
         const storedType = localStorage.getItem(BG_TYPE_KEY);
-        const savedScale = localStorage.getItem('xiongda_video_scale');
+        const savedScale = localStorage.getItem('bxy_video_scale');
         if (savedScale) currentVideoScale = savedScale;
         if (stored) {
             if (storedType === 'video' || isVideoUrl(stored)) {
@@ -147,7 +147,7 @@ function applyVideoScale() {
 
 async function loadBingBg() {
     try {
-        const proxyUrl = `https://cros.xiongdaa.me/?url=${encodeURIComponent(BING_API)}`;
+        const proxyUrl = `https://cros.bxya.me/?url=${encodeURIComponent(BING_API)}`;
         const resp = await fetch(proxyUrl);
         const data = await resp.json();
         if (data && data.url) {
@@ -217,7 +217,7 @@ async function loadWeather() {
         if (cityData.code !== '0' || !cityData.data) throw new Error('城市获取失败');
         const cityName = cityData.data.CITY_CN || '北京';
         const weatherUrl = `https://api.xunjinlu.fun/api/weather/v2.php?city=${encodeURIComponent(cityName)}`;
-        const weatherProxyUrl = `https://cros.xiongdaa.me/?url=${encodeURIComponent(weatherUrl)}`;
+        const weatherProxyUrl = `https://cros.bxya.me/?url=${encodeURIComponent(weatherUrl)}`;
         const weatherResp = await fetch(weatherProxyUrl);
         const weatherData = await weatherResp.json();
         if (weatherData.code !== 200 || !weatherData.data) throw new Error('天气获取失败');

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>三合一计时器 - xiongdaa</title>
+    <title>三合一计时器 - bxya</title>
     <link rel="stylesheet" href="common.css">
     <style>
         /* ---------- Timer 专属样式 ---------- */
@@ -285,7 +285,7 @@
     </div>
 
     <div class="author-credit">
-        <p>❤️ 三合一计时器 · xiongdaa</p>
+        <p>❤️ 三合一计时器 · bxya</p>
     </div>
 
     <script src="common.js"></script>
@@ -364,7 +364,7 @@
         let pomoOnBreak = false;
 
         // 今日完成轮次存储
-        const POMO_STORAGE_KEY = 'xiongda_pomo_today';
+        const POMO_STORAGE_KEY = 'bxy_pomo_today';
         function getTodayStr() {
             return new Date().toISOString().slice(0, 10);
         }
@@ -497,7 +497,7 @@
             pomoStartBtn.innerHTML = '<i class="fas fa-play"></i> 开始';
             pomoFocus.disabled = false;
             pomoBreak.disabled = false;
-            document.title = '三合一计时器 - xiongdaa';
+            document.title = '三合一计时器 - bxya';
             const todayDone = loadTodayRounds();
             pomoCurrentRound = todayDone;
             pomoRound.textContent = todayDone > 0 ? `第 ${todayDone} 轮（已完成）` : '准备开始';
@@ -605,7 +605,7 @@
             swLapBtn.disabled = true;
             swStatus.textContent = '⏱️ 准备就绪';
             swLapList.innerHTML = '';
-            document.title = '三合一计时器 - xiongdaa';
+            document.title = '三合一计时器 - bxya';
         }
 
         swStartBtn.addEventListener('click', swStartPause);
@@ -658,7 +658,7 @@
                     cdStopBtn.disabled = true;
                     playAlert();
                     showToast('⏰ 倒计时结束！');
-                    document.title = '三合一计时器 - xiongdaa';
+                    document.title = '三合一计时器 - bxya';
                 }
                 return;
             }
@@ -705,7 +705,7 @@
             cdStopBtn.disabled = true;
             cdTargetDatetime.disabled = false;
             cdStatus.textContent = '⏸️ 已停止';
-            document.title = '三合一计时器 - xiongdaa';
+            document.title = '三合一计时器 - bxya';
         }
 
         cdStartBtn.addEventListener('click', cdStart);
