@@ -208,46 +208,48 @@ async function loadWeather() {
     const widget = document.getElementById('weather-widget');
     if (!widget) return;
     try {
-        const ipUrl = 'https://v.api.aa1.cn/api/myip/index.php?aa1=text';
-        const ipResp = await fetch(ipUrl);
-        const queryIp = (await ipResp.text()).trim();
-        const cityUrl = `https://zj.v.api.aa1.cn/api/ip-taobao/?ip=${queryIp}`;
-        const cityResp = await fetch(cityUrl);
-        const cityData = await cityResp.json();
-        if (cityData.code !== '0' || !cityData.data) throw new Error('城市获取失败');
-        const cityName = cityData.data.CITY_CN || '北京';
-        const weatherUrl = `https://api.xunjinlu.fun/api/weather/v2.php?city=${encodeURIComponent(cityName)}`;
-        const weatherProxyUrl = `https://cros.bxya.top/?url=${encodeURIComponent(weatherUrl)}`;
-        const weatherResp = await fetch(weatherProxyUrl);
-        const weatherData = await weatherResp.json();
-        if (weatherData.code !== 200 || !weatherData.data) throw new Error('天气获取失败');
-        const data = weatherData.data;
-        const current = data.current;
-        const todayForecast = data.forecast && data.forecast[0] ? data.forecast[0] : null;
-        const temp = current.temperature || '25';
-        const desc = todayForecast ? todayForecast.type : current.quality || '未知';
-        const tempRange = todayForecast ? ` / 高温${todayForecast.high.replace('高温 ', '')} 低温${todayForecast.low.replace('低温 ', '')}` : '';
-        const cityNameDisplay = data.city_info ? data.city_info.city : cityName;
-        const updateInfo = data.update_time ? ` 更新于${data.update_time.split(' ')[1]}` : '';
-        const weatherIconMap = {
-            '晴': 'fa-sun', '多云': 'fa-cloud-sun', '阴': 'fa-cloud',
-            '小雨': 'fa-cloud-showers-heavy', '中雨': 'fa-umbrella', '大雨': 'fa-umbrella',
-            '暴雨': 'fa-umbrella', '雪': 'fa-snowflake', '雾': 'fa-smog', '霾': 'fa-smog'
-        };
-        let iconClass = 'fa-cloud';
-        for (const [key, icon] of Object.entries(weatherIconMap)) {
-            if (desc.includes(key)) { iconClass = icon; break; }
+        const geo = await fetch('https://ipapi.co/json/').then(r => r.json());
+        if (typeof printLog === 'function') {
+            printLog('位置信息', geo, false, 'weather');
+        } else {
+            console.log('位置信息', geo);
         }
-        widget.innerHTML = `
-            <div class="weather-icon"><i class="fas ${iconClass}"></i></div>
-            <div class="weather-info">
-                <div class="weather-temp">${temp}°C${tempRange}</div>
-                <div class="weather-desc">${desc}${updateInfo}</div>
-                <div class="weather-city"><i class="fas fa-map-marker-alt"></i> ${cityNameDisplay}</div>
-            </div>
-        `;
+        const lat = geo.latitude || 39.9;
+        const lon = geo.longitude || 116.4;
+        const cityName = geo.city || '未知';
+        const country = geo.country_name || '';
+        const wUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m&daily=temperature_2m_max,temperature_2m_min&timezone=auto`;
+        const wResp = await fetch(wUrl);
+        const wData = await wResp.json();
+        if (typeof printLog === 'function') {
+            printLog('天气数据响应', wData, false, 'weather');
+        } else {
+            console.log('天气数据响应', wData);
+        }
+        const temp = Math.round(wData.current.temperature_2m || 25);
+        const code = wData.current.weather_code || 0;
+        const wMap = {
+            0:['晴','fa-sun'],1:['多云','fa-cloud-sun'],2:['多云','fa-cloud-sun'],3:['阴天','fa-cloud'],
+            45:['雾','fa-smog'],48:['雾','fa-smog'],
+            51:['毛毛雨','fa-cloud-showers-heavy'],53:['毛毛雨','fa-cloud-showers-heavy'],55:['毛毛雨','fa-cloud-showers-heavy'],
+            61:['小雨','fa-cloud-showers-heavy'],63:['中雨','fa-umbrella'],65:['大雨','fa-umbrella'],
+            71:['小雪','fa-snowflake'],73:['中雪','fa-snowflake'],75:['大雪','fa-snowflake'],
+            80:['阵雨','fa-cloud-showers-heavy'],81:['阵雨','fa-umbrella'],82:['暴雨','fa-umbrella'],
+            95:['雷雨','fa-bolt']
+        };
+        const [desc, icon] = wMap[code] || ['多云', 'fa-cloud'];
+        const daily = wData.daily;
+        let tempRange = '';
+        if (daily && daily.temperature_2m_max && daily.temperature_2m_min) {
+            tempRange = ` / 高${Math.round(daily.temperature_2m_max[0])}° 低${Math.round(daily.temperature_2m_min[0])}°`;
+        }
+        widget.innerHTML = `<div class="weather-icon"><i class="fas ${icon}"></i></div><div class="weather-info"><div class="weather-temp">${temp}°C${tempRange}</div><div class="weather-desc">${desc}</div><div class="weather-city"><i class="fas fa-map-marker-alt"></i> ${cityName}${country ? ', ' + country : ''}</div></div>`;
     } catch (e) {
-        printLog('天气获取失败', e.message, true);
+        if (typeof printLog === 'function') {
+            printLog('天气获取失败', e.message, true, 'weather');
+        } else {
+            console.error('天气获取失败', e);
+        }
         widget.innerHTML = '<div class="weather-loading"><i class="fas fa-cloud"></i> 天气加载失败</div>';
     }
 }
