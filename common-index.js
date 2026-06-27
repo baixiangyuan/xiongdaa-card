@@ -291,11 +291,10 @@ async function loadWeather() {
         const ipResp=await fetch('https://v.api.aa1.cn/api/myip/index.php?aa1=text');
         const ipText=(await ipResp.text()).trim();
         printLog('IP获取响应',ipText,false,'weather');
-        const cityResp=await fetch(`https://zj.v.api.aa1.cn/api/ip-taobao/?ip=${ipText}`);
+        const cityResp=await fetch(`http://ip-api.com/json/${ipText}?fields=city`);
         const cityData=await cityResp.json();
         printLog('城市信息响应',cityData,false,'weather');
-        if(cityData.code!=='0'||!cityData.data) throw new Error('获取城市信息失败');
-        const cityName=cityData.data.CITY_CN||'北京';
+        const cityName=cityData.city||'北京';
         const wUrl=`https://api.xunjinlu.fun/api/weather/v2.php?city=${encodeURIComponent(cityName)}`;
         const proxyUrl=`https://cros.xiongdaa.me/?url=${encodeURIComponent(wUrl)}`;
         const wResp=await fetch(proxyUrl); const wData=await wResp.json();
