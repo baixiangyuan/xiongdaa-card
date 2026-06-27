@@ -68,6 +68,22 @@ function updateClock() {
 }
 setInterval(updateClock, 1000); updateClock();
 
+const STARTUP_DATE = new Date("2026-06-11T00:00:00");
+function updateUptime() {
+    const now = new Date();
+    const diff = now - STARTUP_DATE;
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = String(Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
+    const minutes = String(Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
+    const seconds = String(Math.floor((diff % (1000 * 60)) / 1000)).padStart(2, '0');
+    const el = document.getElementById('uptime-days');
+    const hmsEl = document.getElementById('uptime-hms');
+    if(el) el.innerText = days;
+    if(hmsEl) hmsEl.innerText = hours + ':' + minutes + ':' + seconds;
+}
+setInterval(updateUptime, 1000);
+updateUptime();
+
 // ================= 打字机效果 =================
 let textToType = "正在连接异世界的数据节点...";
 let typeIndex = 0;

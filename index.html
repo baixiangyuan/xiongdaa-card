@@ -181,7 +181,22 @@
             font-weight: 700; color: var(--text-main); font-size: 0.95rem;
             min-width: 32px; text-align: center;
         }
-
+        .uptime-card {
+            display: flex; align-items: center; justify-content: center; gap: 20px;
+            padding: 10px 20px; border-radius: 50px;
+            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+        }
+        .uptime-card:hover { background: rgba(255, 255, 255, 0.12); }
+        .uptime-item {
+            display: flex; align-items: center; gap: 6px;
+            font-size: 0.85rem; color: var(--text-muted);
+        }
+        .uptime-item .icon { font-size: 1rem; }
+        .uptime-item .num {
+            font-weight: 700; color: var(--text-main); font-size: 0.95rem;
+            min-width: 32px; text-align: center;
+        }
         /* === 右侧：工具与音乐卡片 === */
         .tools-card { padding: 30px; display: flex; flex-direction: column; gap: 20px; }
 
@@ -1104,6 +1119,15 @@
                         <span class="icon"></span>
                         <span class="num" id="busuanzi_value_site_pv">--</span>
                         <span>访问</span>
+                    </div>
+                </div>
+
+                <div class="uptime-card" style="margin-top:12px;">
+                    <div class="uptime-item">
+                        <span class="icon">⏱</span>
+                        <span>本站已运行</span>
+                        <span class="num" id="uptime-days">--</span>天
+                        <span class="num" id="uptime-hms">--:--:--</span>
                     </div>
                 </div>
             </div>
