@@ -208,7 +208,7 @@ async function loadWeather() {
     const widget = document.getElementById('weather-widget');
     if (!widget) return;
     try {
-        const geo = await fetch('https://ipapi.co/json/').then(r => r.json());
+        const geo = await fetch('https://api.ip.sb/geoip').then(r => r.json());
         if (typeof printLog === 'function') {
             printLog('位置信息', geo, false, 'weather');
         } else {
