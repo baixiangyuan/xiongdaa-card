@@ -294,7 +294,8 @@ async function loadWeather() {
         const cityResp=await fetch(`http://ip-api.com/json/${ipText}?fields=city`);
         const cityData=await cityResp.json();
         printLog('城市信息响应',cityData,false,'weather');
-        const cityName=cityData.city||'北京';
+        const cityName=cityData.city;
+        if(!cityName) throw new Error('获取城市信息失败');
         const wUrl=`https://api.xunjinlu.fun/api/weather/v2.php?city=${encodeURIComponent(cityName)}`;
         const proxyUrl=`https://cros.xiongdaa.me/?url=${encodeURIComponent(wUrl)}`;
         const wResp=await fetch(proxyUrl); const wData=await wResp.json();
