@@ -147,7 +147,7 @@ function applyVideoScale() {
 
 async function loadBingBg() {
     try {
-        const proxyUrl = `https://cros.bxya.me/?url=${encodeURIComponent(BING_API)}`;
+        const proxyUrl = `https://cros.bxya.top/?url=${encodeURIComponent(BING_API)}`;
         const resp = await fetch(proxyUrl);
         const data = await resp.json();
         if (data && data.url) {
@@ -217,7 +217,7 @@ async function loadWeather() {
         if (cityData.code !== '0' || !cityData.data) throw new Error('城市获取失败');
         const cityName = cityData.data.CITY_CN || '北京';
         const weatherUrl = `https://api.xunjinlu.fun/api/weather/v2.php?city=${encodeURIComponent(cityName)}`;
-        const weatherProxyUrl = `https://cros.bxya.me/?url=${encodeURIComponent(weatherUrl)}`;
+        const weatherProxyUrl = `https://cros.bxya.top/?url=${encodeURIComponent(weatherUrl)}`;
         const weatherResp = await fetch(weatherProxyUrl);
         const weatherData = await weatherResp.json();
         if (weatherData.code !== 200 || !weatherData.data) throw new Error('天气获取失败');
