@@ -291,11 +291,10 @@ async function loadWeather() {
         const ipResp=await fetch('https://v.api.aa1.cn/api/myip/index.php?aa1=text');
         const ipText=(await ipResp.text()).trim();
         printLog('IP获取响应',ipText,false,'weather');
-        const cityResp=await fetch(`http://ip-api.com/json/${ipText}?fields=city`);
+        const cityResp=await fetch('https://ipapi.co/json/');
         const cityData=await cityResp.json();
         printLog('城市信息响应',cityData,false,'weather');
         const cityName=cityData.city;
-        if(!cityName) throw new Error('获取城市信息失败');
         const wUrl=`https://api.xunjinlu.fun/api/weather/v2.php?city=${encodeURIComponent(cityName)}`;
         const proxyUrl=`https://cros.xiongdaa.me/?url=${encodeURIComponent(wUrl)}`;
         const wResp=await fetch(proxyUrl); const wData=await wResp.json();
@@ -406,43 +405,9 @@ function renderBioPanel(data){
 }
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){const m=document.getElementById('bio-modal');if(m?.classList.contains('show'))closeBioPanel();}});
 
-// ================= 主题重定向 (切换主题=切换HTML) =================
-const THEME_FILES = { aurora: 'index.html', cyberpunk: 'index-cyberpunk.html', ink: 'index-ink.html', galaxy: 'index-galaxy.html', sakura: 'index-sakura.html', sidebar: 'index-sidebar.html', tabbed: 'index-tabbed.html', grid: 'index-grid.html', terminal: 'index-terminal.html', neon: 'index-neon.html' };
-const CURRENT_THEME_FILE = location.pathname.split('/').pop() || 'index.html';
-
-function redirectToTheme(themeId) {
-    const file = THEME_FILES[themeId] || 'index.html';
-    if(file === CURRENT_THEME_FILE) return;
-    try { localStorage.setItem('xiongda_theme', themeId); sessionStorage.setItem('theme_transition','1'); } catch(e) {}
-    // 渐进变黑
-    const ov=document.createElement('div');
-    ov.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;z-index:999999;background:#000;opacity:0;transition:opacity 0.35s ease;pointer-events:none;';
-    document.body.appendChild(ov);
-    requestAnimationFrame(()=>ov.style.opacity='1');
-    setTimeout(()=>{window.location.href=file;},400);
-}
-
-function initThemeRedirect() {
-    // Called at the very top of each theme HTML to check if user wants a different theme
-    const saved = localStorage.getItem('xiongda_theme') || 'aurora';
-    const expectedFile = THEME_FILES[saved] || 'index.html';
-    if(expectedFile !== CURRENT_THEME_FILE) {
-        window.location.replace(expectedFile);
-        return true; // redirecting
-    }
-    return false; // staying
-}
-
-// ================= 主题切换器 UI =================
-const THEME_LIST = [{id:'aurora',name:'极光'},{id:'cyberpunk',name:'赛博'},{id:'ink',name:'水墨'},{id:'galaxy',name:'星河'},{id:'sakura',name:'樱花'},{id:'sidebar',name:'侧边'},{id:'tabbed',name:'标签'},{id:'grid',name:'网格'},{id:'terminal',name:'终端'},{id:'neon',name:'霓虹'}];
-function createThemeSwitcher(currentTheme) {
-    const sw = document.createElement('div'); sw.className = 'theme-switcher';
-    sw.innerHTML = `<div class="theme-panel">${THEME_LIST.map(t=>`<div class="theme-option${t.id===currentTheme?' active':''}" data-theme="${t.id}" onclick="redirectToTheme('${t.id}')"><span class="theme-dot ${t.id}"></span><span>${t.name}</span></div>`).join('')}</div><button class="theme-switcher-btn" onclick="document.querySelector('.theme-panel')?.classList.toggle('show')" title="切换主题"><i class="fas fa-palette"></i></button>`;
-    document.body.appendChild(sw);
-}
 
 // ================= 环境光效 Canvas =================
-const THEME_COLORS = { aurora:{primary:'110,231,183',secondary:'96,165,250'}, cyberpunk:{primary:'255,45,123',secondary:'0,240,255'}, ink:{primary:'212,165,116',secondary:'143,188,143'}, galaxy:{primary:'179,136,255',secondary:'255,128,171'}, sakura:{primary:'255,158,181',secondary:'255,209,220'}, sidebar:{primary:'255,107,107',secondary:'72,202,228'}, tabbed:{primary:'251,146,60',secondary:'236,72,153'}, grid:{primary:'52,211,153',secondary:'96,165,250'}, terminal:{primary:'74,222,128',secondary:'250,204,21'}, neon:{primary:'255,45,123',secondary:'250,204,21'} };
+const THEME_COLORS = { aurora:{primary:"110,231,183",secondary:"96,165,250"} };
 let ambientColors = THEME_COLORS.aurora;
 function initAmbientCanvas(themeId) {
     ambientColors = THEME_COLORS[themeId] || THEME_COLORS.aurora;
@@ -522,8 +487,7 @@ function initIndexPage(themeId) {
     loadPlayHistory();
     initSearchBindings();
     initLyricScroll();
-    createThemeSwitcher(themeId);
-    initAmbientCanvas(themeId);
+        initAmbientCanvas(themeId);
     initCursorEffects();
     hideSkeletonOverlay();
     initViewTransitions();

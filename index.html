@@ -8,18 +8,9 @@
     <title>bxy</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script>
-    (function(){
-        var tf={aurora:'index.html',cyberpunk:'index-cyberpunk.html',ink:'index-ink.html',galaxy:'index-galaxy.html',sakura:'index-sakura.html',sidebar:'index-sidebar.html',tabbed:'index-tabbed.html',grid:'index-grid.html',terminal:'index-terminal.html',neon:'index-neon.html'};
-        var cf=location.pathname.split('/').pop()||'index.html';
-        var s=localStorage.getItem('xiongda_theme')||'aurora';
-        var ef=tf[s]||'index.html';
-        if(ef!==cf){window.location.replace(ef);}
-    })();
-    </script>
     <style>
         /* ===== 多主题系统 ===== */
-        :root, [data-theme="aurora"] {
+        :root {
             --glass-bg: rgba(15, 20, 35, 0.45);
             --glass-border: rgba(120, 200, 255, 0.15);
             --glass-shadow: 0 15px 40px rgba(0, 20, 60, 0.4);
@@ -33,44 +24,6 @@
             --body-bg: linear-gradient(135deg, #0a0e1a 0%, #0d1b2a 40%, #1b2838 100%);
             --overlay-bg: radial-gradient(ellipse at 30% 20%, rgba(110,231,183,0.08) 0%, transparent 50%), radial-gradient(ellipse at 70% 80%, rgba(96,165,250,0.06) 0%, transparent 50%), radial-gradient(circle at center, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.5) 100%);
         }
-        [data-theme="cyberpunk"] {
-            --glass-bg: rgba(10, 0, 20, 0.6); --glass-border: rgba(255, 0, 128, 0.25);
-            --glass-shadow: 0 0 30px rgba(255, 0, 128, 0.15), 0 15px 40px rgba(0,0,0,0.5);
-            --glass-blur: blur(20px) saturate(200%); --text-main: #fff0f5;
-            --text-muted: rgba(255, 200, 220, 0.65); --theme-accent: #ff2d7b;
-            --theme-accent2: #00f0ff; --theme-glow: rgba(255, 45, 123, 0.4); --card-radius: 8px;
-            --body-bg: linear-gradient(180deg, #0a0014 0%, #1a0028 50%, #0a0014 100%);
-            --overlay-bg: radial-gradient(ellipse at 50% 0%, rgba(255,0,128,0.1) 0%, transparent 60%), radial-gradient(circle at center, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.6) 100%);
-        }
-        [data-theme="ink"] {
-            --glass-bg: rgba(245, 240, 230, 0.12); --glass-border: rgba(200, 180, 150, 0.2);
-            --glass-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            --glass-blur: blur(20px) saturate(100%); --text-main: #f0e8d8;
-            --text-muted: rgba(220, 200, 170, 0.7); --theme-accent: #d4a574;
-            --theme-accent2: #8fbc8f; --theme-glow: rgba(212, 165, 116, 0.2); --card-radius: 4px;
-            --body-bg: linear-gradient(160deg, #1a1814 0%, #2a2520 40%, #1a1814 100%);
-            --overlay-bg: radial-gradient(ellipse at 20% 30%, rgba(212,165,116,0.06) 0%, transparent 50%), radial-gradient(circle at center, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.4) 100%);
-        }
-        [data-theme="galaxy"] {
-            --glass-bg: rgba(10, 5, 30, 0.5); --glass-border: rgba(147, 130, 255, 0.18);
-            --glass-shadow: 0 0 40px rgba(100, 50, 200, 0.1), 0 15px 40px rgba(0,0,0,0.5);
-            --glass-blur: blur(28px) saturate(140%); --text-main: #e8e0ff;
-            --text-muted: rgba(180, 170, 220, 0.7); --theme-accent: #b388ff;
-            --theme-accent2: #ff80ab; --theme-glow: rgba(179, 136, 255, 0.3); --card-radius: 20px;
-            --body-bg: linear-gradient(135deg, #050010 0%, #0a0520 40%, #150a30 100%);
-            --overlay-bg: radial-gradient(ellipse at 60% 20%, rgba(179,136,255,0.08) 0%, transparent 50%), radial-gradient(circle at center, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.5) 100%);
-        }
-        [data-theme="sakura"] {
-            --glass-bg: rgba(255, 240, 245, 0.15); --glass-border: rgba(255, 182, 193, 0.25);
-            --glass-shadow: 0 10px 30px rgba(200, 100, 130, 0.15);
-            --glass-blur: blur(22px) saturate(130%); --text-main: #fff0f3;
-            --text-muted: rgba(255, 200, 210, 0.7); --theme-accent: #ff9eb5;
-            --theme-accent2: #ffd1dc; --theme-glow: rgba(255, 158, 181, 0.3); --card-radius: 28px;
-            --body-bg: linear-gradient(135deg, #1a0a10 0%, #2a1520 40%, #1a0a10 100%);
-            --overlay-bg: radial-gradient(ellipse at 40% 30%, rgba(255,158,181,0.08) 0%, transparent 50%), radial-gradient(circle at center, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.4) 100%);
-        }
-
-        .theme-transitioning * { transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1) !important; }
 
         * {
             margin: 0; padding: 0; box-sizing: border-box;
@@ -911,43 +864,12 @@
         @keyframes trailDot {
             0% { opacity: 0.8; transform: translate(0, 0) scale(1); }
             100% { opacity: 0; transform: translate(var(--mx), var(--my)) scale(0); }
-        }
-
-        /* === 主题切换器 === */
-        .theme-switcher {
-            position: fixed; bottom: 20px; right: 20px; z-index: 1000;
-            display: flex; flex-direction: column; gap: 6px; align-items: flex-end;
-        }
-        .theme-switcher-btn {
-            width: 42px; height: 42px; border-radius: 50%;
-            background: rgba(0,0,0,0.5); backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border); color: #fff;
-            display: flex; justify-content: center; align-items: center;
-            cursor: pointer; transition: all 0.3s; font-size: 1rem;
-        }
-        .theme-switcher-btn:hover { background: rgba(255,255,255,0.15); transform: scale(1.1); }
-        .theme-panel {
-            display: none; flex-direction: column; gap: 6px;
-            background: rgba(0,0,0,0.7); backdrop-filter: blur(16px);
-            border: 1px solid var(--glass-border); border-radius: 16px;
-            padding: 12px; margin-bottom: 6px; animation: slideUpFade 0.3s ease forwards;
-        }
-        .theme-panel.show { display: flex; }
-        .theme-option {
-            display: flex; align-items: center; gap: 10px;
-            padding: 8px 14px; border-radius: 10px;
-            background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06);
-            cursor: pointer; transition: all 0.2s; font-size: 0.78rem; color: var(--text-muted);
-            white-space: nowrap;
-        }
-        .theme-option:hover { background: rgba(255,255,255,0.1); color: #fff; }
+        }.theme-switcher-btn:hover { background: rgba(255,255,255,0.15); transform: scale(1.1); }.theme-panel.show { display: flex; }.theme-option:hover { background: rgba(255,255,255,0.1); color: #fff; }
         .theme-option.active { border-color: var(--theme-accent); color: var(--theme-accent); background: rgba(255,255,255,0.08); }
         .theme-dot {
             width: 16px; height: 16px; border-radius: 50%; flex-shrink: 0;
             border: 2px solid rgba(255,255,255,0.2);
-        }
-        .theme-dot.aurora { background: linear-gradient(135deg, #6ee7b7, #60a5fa); }
-        .theme-dot.cyberpunk { background: linear-gradient(135deg, #ff2d7b, #00f0ff); }
+        }.theme-dot.cyberpunk { background: linear-gradient(135deg, #ff2d7b, #00f0ff); }
         .theme-dot.ink { background: linear-gradient(135deg, #d4a574, #8fbc8f); }
         .theme-dot.galaxy { background: linear-gradient(135deg, #b388ff, #ff80ab); }
         .theme-dot.sakura { background: linear-gradient(135deg, #ff9eb5, #ffd1dc); }
