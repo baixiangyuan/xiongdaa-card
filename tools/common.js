@@ -218,7 +218,7 @@ async function loadWeather() {
         const lon = geo.longitude || 116.4;
         const cityName = geo.city || '未知';
         const country = geo.country_name || '';
-        const wUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m&daily=temperature_2m_max,temperature_2m_min&timezone=auto`;
+        const wUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m&daily=temperature_2m_max,temperature_2m_min&timezone=auto`;
         const wResp = await fetch(wUrl);
         const wData = await wResp.json();
         if (typeof printLog === 'function') {
@@ -226,24 +226,42 @@ async function loadWeather() {
         } else {
             console.log('天气数据响应', wData);
         }
-        const temp = Math.round(wData.current.temperature_2m || 25);
-        const code = wData.current.weather_code || 0;
+        
+        const cur = wData.current || {};
+        const daily = wData.daily || {};
+        
+        const temp = Math.round(cur.temperature_2m || 25);
+        const apparentTemp = Math.round(cur.apparent_temperature || temp);
+        const humidity = cur.relative_humidity_2m || 0;
+        const windSpeed = cur.wind_speed_10m || 0;
+        const code = cur.weather_code || 0;
+        const updateTime = cur.time ? cur.time.split('T')[1] : '';
+        
+        const maxTemp = daily.temperature_2m_max && daily.temperature_2m_max[0] !== undefined ? Math.round(daily.temperature_2m_max[0]) : '--';
+        const minTemp = daily.temperature_2m_min && daily.temperature_2m_min[0] !== undefined ? Math.round(daily.temperature_2m_min[0]) : '--';
+        
         const wMap = {
             0:['晴','fa-sun'],1:['多云','fa-cloud-sun'],2:['多云','fa-cloud-sun'],3:['阴天','fa-cloud'],
             45:['雾','fa-smog'],48:['雾','fa-smog'],
             51:['毛毛雨','fa-cloud-showers-heavy'],53:['毛毛雨','fa-cloud-showers-heavy'],55:['毛毛雨','fa-cloud-showers-heavy'],
+            56:['冻雨','fa-cloud-showers-heavy'],57:['冻雨','fa-umbrella'],
             61:['小雨','fa-cloud-showers-heavy'],63:['中雨','fa-umbrella'],65:['大雨','fa-umbrella'],
+            66:['冻雨','fa-umbrella'],67:['冻雨','fa-umbrella'],
             71:['小雪','fa-snowflake'],73:['中雪','fa-snowflake'],75:['大雪','fa-snowflake'],
-            80:['阵雨','fa-cloud-showers-heavy'],81:['阵雨','fa-umbrella'],82:['暴雨','fa-umbrella'],
-            95:['雷雨','fa-bolt']
+            77:['小雪','fa-snowflake'],80:['阵雨','fa-cloud-showers-heavy'],81:['阵雨','fa-umbrella'],82:['暴雨','fa-umbrella'],
+            85:['阵雪','fa-snowflake'],86:['阵雪','fa-snowflake'],
+            95:['雷雨','fa-bolt'],96:['雷雨','fa-bolt'],99:['雷雨','fa-bolt']
         };
         const [desc, icon] = wMap[code] || ['多云', 'fa-cloud'];
-        const daily = wData.daily;
-        let tempRange = '';
-        if (daily && daily.temperature_2m_max && daily.temperature_2m_min) {
-            tempRange = ` / 高${Math.round(daily.temperature_2m_max[0])}° 低${Math.round(daily.temperature_2m_min[0])}°`;
-        }
-        widget.innerHTML = `<div class="weather-icon"><i class="fas ${icon}"></i></div><div class="weather-info"><div class="weather-temp">${temp}°C${tempRange}</div><div class="weather-desc">${desc}</div><div class="weather-city"><i class="fas fa-map-marker-alt"></i> ${cityName}${country ? ', ' + country : ''}</div></div>`;
+        
+        widget.innerHTML = `
+            <div class="weather-icon"><i class="fas ${icon}"></i></div>
+            <div class="weather-info">
+                <div class="weather-temp">${temp}°C</div>
+                <div class="weather-desc">${desc} · ${minTemp}°~${maxTemp}°<br>体感 ${apparentTemp}°C · 湿度 ${humidity}% · 风速 ${windSpeed}km/h</div>
+                <div class="weather-city" style="margin-top:4px;"><i class="fas fa-map-marker-alt"></i> ${cityName}${country ? ' · ' + country : ''}${updateTime ? ' · ' + updateTime : ''}</div>
+            </div>
+        `;
     } catch (e) {
         if (typeof printLog === 'function') {
             printLog('天气获取失败', e.message, true, 'weather');
