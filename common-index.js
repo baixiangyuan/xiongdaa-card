@@ -295,13 +295,19 @@ async function loadWeather() {
         const cityName=cityData.city||'未知';
         const country=cityData.country_name||'';
         // Open-Meteo 免费国际天气API
-        const wUrl=`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&timezone=auto`;
+        const wUrl=`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,wind_speed_10m,weather_code&daily=temperature_2m_max,temperature_2m_min&timezone=auto`;
         const wResp=await fetch(wUrl); const wData=await wResp.json();
         printLog('天气数据响应',wData,false,'weather');
-        if(!wData.current_weather) throw new Error('获取天气数据失败');
-        const cur=wData.current_weather;
-        const temp=cur.temperature;
-        const code=cur.weathercode;
+        if(!wData.current) throw new Error('获取天气数据失败');
+        const cur=wData.current;
+        const temp=cur.temperature_2m;
+        const code=cur.weather_code;
+        const humidity=cur.relative_humidity_2m;
+        const apparentTemp=cur.apparent_temperature;
+        const windSpeed=cur.wind_speed_10m;
+        const updateTime=cur.time?cur.time.split('T')[1]:'';
+        const maxTemp=wData.daily?.temperature_2m_max?.[0]||'--';
+        const minTemp=wData.daily?.temperature_2m_min?.[0]||'--';
         // weathercode 映射
         const wMap={
             0:['晴','fa-sun'],1:['多云','fa-cloud-sun'],2:['多云','fa-cloud-sun'],3:['阴天','fa-cloud'],
@@ -316,7 +322,7 @@ async function loadWeather() {
             95:['雷雨','fa-bolt'],96:['雷雨','fa-bolt'],99:['雷雨','fa-bolt']
         };
         const [desc,icon]=wMap[code]||['未知','fa-cloud'];
-        widget.innerHTML=`<div class="weather-icon"><i class="fas ${icon}"></i></div><div class="weather-info"><div class="weather-temp">${temp}°C</div><div class="weather-desc">${desc}</div><div class="weather-city"><i class="fas fa-map-marker-alt"></i> ${cityName}${country?' · '+country:''}</div></div>`;
+        widget.innerHTML=`<div class="weather-icon"><i class="fas ${icon}"></i></div><div class="weather-info"><div class="weather-temp">${temp}°C</div><div class="weather-desc">${desc} · ${minTemp}°~${maxTemp}°<br>体感 ${apparentTemp}°C · 湿度 ${humidity}% · 风速 ${windSpeed}km/h</div><div class="weather-city" style="margin-top:4px;"><i class="fas fa-map-marker-alt"></i> ${cityName}${country?' · '+country:''}${updateTime?' · '+updateTime:''}</div></div>`;
     }catch(e){printLog('天气获取失败',e.message,true,'weather');widget.innerHTML='<div class="weather-loading"><i class="fas fa-cloud"></i> 天气加载失败</div>';}
 }
 
